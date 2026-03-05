@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import { Search, Loader, PlayIcon, ExternalLink, SpeechIcon } from "lucide-react";
@@ -10,7 +9,6 @@ function Home() {
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch word from API
   useEffect(() => {
     const word = urlParams.get("sq")?.trim() || "";
     if (word === "") {
@@ -33,7 +31,6 @@ function Home() {
       .finally(() => setLoading(false));
   }, [urlParams]);
 
-  // Handle search submit
   const handleSubmit = (e) => {
     e.preventDefault();
     const val = searchRef.current.value.trim().toLowerCase();
@@ -45,7 +42,6 @@ function Home() {
       <Header />
 
       <main className="max-w-[735px] mx-auto p-6 pt-0">
-        {/* Search Form */}
         <form onSubmit={handleSubmit} className="mb-6">
           <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
             <input
@@ -60,14 +56,12 @@ function Home() {
           </div>
         </form>
 
-        {/* Loading */}
         {loading && (
           <div className="flex justify-center items-center h-[60vh]">
             <Loader className="animate-spin text-purple-600" size={40} />
           </div>
         )}
 
-        {/* No search or empty */}
         {!loading && (!urlParams.get("sq") || urlParams.get("sq") === "") && (
           <div className="flex flex-col items-center justify-center h-[60vh] text-center">
             <span className="text-[64px]">😊</span>
@@ -75,19 +69,16 @@ function Home() {
           </div>
         )}
 
-        {/* API Error */}
         {!loading && apiData?.title && (
           <div className="flex flex-col items-center justify-center h-[60vh] text-center">
             <span className="text-[64px]">😕</span>
-            <h2 className="font-bold text-xl mt-2">{apiData.title}</h2>
-            <p className="mt-1 text-gray-500">{apiData.message}</p>
+            <h2 className="font-bold text-xl mt-2">No Definitions Found</h2>
+            <p className="mt-1 text-gray-500">Sorry pal, we couldn't find definitions for the word you were looking for. You can try <br /> the search again at later time or head to the web instead.</p>
           </div>
         )}
 
-        {/* Word content */}
         {!loading && apiData && !apiData.title && (
           <div className="space-y-6">
-            {/* Word + phonetic + audio */}
             <div className="flex justify-between items-center">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{apiData.word}</h1>
@@ -106,7 +97,6 @@ function Home() {
               )}
             </div>
 
-            {/* Meanings */}
             {apiData.meanings?.map((m, idx) => (
               <div key={idx} className="space-y-2">
                 <h3 className="italic font-semibold text-gray-700 dark:text-gray-200">{m.partOfSpeech}</h3>
@@ -124,7 +114,6 @@ function Home() {
               </div>
             ))}
 
-            {/* Sources */}
             {apiData.sourceUrls?.length > 0 && (
               <div>
                 <h4 className="text-gray-500 dark:text-gray-400 mb-1">Source:</h4>
